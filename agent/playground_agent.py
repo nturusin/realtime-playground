@@ -4,9 +4,13 @@ import asyncio
 import json
 import logging
 import uuid
+import aiohttp
+
+from anna_tax_adviser_search_client import ModelAPIClient as SearchAPIClient
+from anna_tax_adviser_search_client.data import RequestData
 from dataclasses import asdict, dataclass
 from typing import Any, Dict, Literal
-
+from typing import Annotated
 from livekit import rtc
 from livekit.agents import (
     AutoSubscribe,
@@ -21,6 +25,25 @@ from livekit.plugins import openai
 
 logger = logging.getLogger("my-worker")
 logger.setLevel(logging.INFO)
+
+
+class AssistantFnc(llm.FunctionContext):
+    def __init__(self):
+        super().__init__()
+        self.search_client = SearchAPIClient(
+            http_client=aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=10)),
+            base_url="https://tax-adviser-search-datascience.datascience.anna.money",
+            timeout=10
+        )
+
+    @llm.ai_callable()
+    async def search(self, query: Annotated[str, llm.TypeInfo(description="The query to search for")]):
+        print('------------------')
+        print(query)
+        request = RequestData(text=str(query), top_k=3, max_search_distance=0.25)
+        result = await self.search_client.predict(request)
+        print(result.documents)
+        return str(result.documents)
 
 
 @dataclass
@@ -106,9 +129,14 @@ def run_multimodal_agent(ctx: JobContext, participant: rtc.Participant):
         modalities=config.modalities,
         turn_detection=config.turn_detection,
     )
-    assistant = MultimodalAgent(model=model)
+    fnc_ctx = AssistantFnc()
+    model._fnc_ctx = fnc_ctx
+    assistant = MultimodalAgent(model=model, fnc_ctx=fnc_ctx)
     assistant.start(ctx.room)
-    session = model.sessions[0]
+    session = model.session(
+        chat_ctx=llm.ChatContext(),
+        fnc_ctx=fnc_ctx,
+    )
 
     if config.modalities == ["text", "audio"]:
         session.conversation.item.create(
@@ -139,6 +167,7 @@ def run_multimodal_agent(ctx: JobContext, participant: rtc.Participant):
                 max_response_output_tokens=new_config.max_response_output_tokens,
                 turn_detection=new_config.turn_detection,
                 modalities=new_config.modalities,
+                tool_choice="auto",
             )
             return json.dumps({"changed": True})
         else:
