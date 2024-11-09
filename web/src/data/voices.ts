@@ -1,7 +1,12 @@
 export enum VoiceId {
   alloy = "alloy",
-  shimmer = "shimmer",
+  ash = "ash",
+  ballad = "ballad",
+  coral = "coral",
   echo = "echo",
+  sage = "sage",
+  shimmer = "shimmer",
+  verse = "verse",
 }
 
 export interface Voice {
@@ -15,11 +20,31 @@ export const voices: Voice[] = [
     name: "Alloy",
   },
   {
-    id: VoiceId.shimmer,
-    name: "Shimmer",
+      id: VoiceId.ash,
+      name: "Ash",
+  },
+  {
+    id: VoiceId.ballad,
+    name: "Ballad",
+  },
+  {
+    id: VoiceId.coral,
+    name: "Coral",
   },
   {
     id: VoiceId.echo,
     name: "Echo",
+  },
+  {
+      id: VoiceId.sage,
+      name: "Sage",
+  },
+  {
+    id: VoiceId.shimmer,
+    name: "Shimmer",
+  },
+  {
+      id: VoiceId.verse,
+      name: "Verse",
   },
 ];

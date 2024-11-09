@@ -31,7 +31,7 @@ export const defaultSessionConfig: SessionConfig = {
   transcriptionModel: TranscriptionModelId.whisper1,
   turnDetection: TurnDetectionTypeId.server_vad,
   modalities: ModalitiesId.text_and_audio,
-  voice: VoiceId.alloy,
+  voice: VoiceId.coral,
   temperature: 0.8,
   maxOutputTokens: null,
   vadThreshold: 0.5,
@@ -43,8 +43,7 @@ export const defaultSessionConfig: SessionConfig = {
 export const defaultPlaygroundState: PlaygroundState = {
   sessionConfig: { ...defaultSessionConfig },
   userPresets: [],
-  selectedPresetId: "helpful-ai",
+  selectedPresetId: "tax-advisor-search",
   openaiAPIKey: undefined,
-  instructions:
-    "Your name is ANNA, please always you 'search' tool before answering the question",
+  instructions: `Your name is ANNA, please always you 'search' tool before answering any question`
 };

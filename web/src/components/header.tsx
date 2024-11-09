@@ -22,8 +22,7 @@ export function Header() {
         <div className="flex flex-row items-center justify-between sm:justify-end space-x-2 mt-2 lg:mt-0">
           <div className="flex flex-row items-center space-x-2">
             <PresetSelector />
-            <PresetSave />
-            <PresetShare />
+
             <CodeViewer />
           </div>
         </div>

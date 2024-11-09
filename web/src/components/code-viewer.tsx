@@ -115,14 +115,6 @@ cli.runApp(new WorkerOptions({ agent: fileURLToPath(import.meta.url), workerType
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
-          variant="default"
-          className="group relative transition-all duration-300 ease-in-out transform hover:scale-105 text-sm font-semibold"
-        >
-          <Rocket className="h-5 w-5" />
-          <span className="sm:ml-2 hidden sm:block">Build with LiveKit</span>
-          <span className="ml-2 sm:hidden">Build</span>
-        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-6xl w-[95vw] flex flex-col mx-auto h-[90vh] max-h-[90vh]">
         <DialogHeader>
