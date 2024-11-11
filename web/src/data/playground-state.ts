@@ -46,5 +46,5 @@ export const defaultPlaygroundState: PlaygroundState = {
   selectedPresetId: "helpful-ai",
   openaiAPIKey: undefined,
   instructions:
-    "Your name is ANNA, please always you 'search' tool before answering the question",
+    "Your name is ANNA, please always you 'search' tool before answering the question. Adapt to the user's language and translate the search query to english.",
 };

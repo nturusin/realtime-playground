@@ -38,7 +38,6 @@ class AssistantFnc(llm.FunctionContext):
 
     @llm.ai_callable()
     async def search(self, query: Annotated[str, llm.TypeInfo(description="The query to search for")]):
-        print('------------------')
         print(query)
         request = RequestData(text=str(query), top_k=3, max_search_distance=0.25)
         result = await self.search_client.predict(request)
@@ -143,6 +142,19 @@ def run_multimodal_agent(ctx: JobContext, participant: rtc.Participant):
             llm.ChatMessage(
                 role="user",
                 content="Please begin the interaction with the user in a manner consistent with your instructions.",
+            )
+        )
+        session.response.create()
+
+    @ctx.room.local_participant.register_rpc_method("pg.sendMessage")
+    async def send_message(
+            data: rtc.rpc.RpcInvocationData,
+    ):
+        session = model.sessions[0]
+        session.conversation.item.create(
+            llm.ChatMessage(
+                role="user",
+                content=json.loads(data.payload).get('text'),
             )
         )
         session.response.create()
