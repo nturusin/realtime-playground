@@ -2,3 +2,5 @@ livekit >= 0.18.0
 livekit-protocol
 livekit-agents>=0.11.0
 livekit-plugins-openai>=0.10.5
+anna-tax-adviser-search-client==2024.5
+marshmallow_recipe==0.0.41

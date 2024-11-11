@@ -107,6 +107,12 @@ export function ConfigurationForm() {
           description: "Your changes have been applied successfully.",
           variant: "success",
         });
+
+      await localParticipant.performRpc({
+        destinationIdentity: agent.identity,
+        method: "pg.sendMessage",
+        payload: JSON.stringify({"text": "Hello, World!"}),
+      });
       }
     } catch (e) {
       toast({
